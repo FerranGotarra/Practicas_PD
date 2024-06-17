@@ -111,3 +111,58 @@ En caso de no encontrar, sería distinta:
 No I2C devices found
 done
 ```
+
+
+
+El código utiliza el ESP32-S3 para leer datos de temperatura y humedad del sensor y los muestra en una pantalla LCD I2C. En la función setup(), el código inicializa la comunicación serie, el LCD y el sensor AHT. Si el sensor no se encuentra, el programa se detiene con un mensaje de error.
+
+En la función loop(), se obtienen los datos de temperatura y humedad del sensor, que se actualizan en la pantalla LCD cada segundo.
+
+```
+#include <Arduino.h>
+//YWROBOT
+//Compatible with the Arduino IDE 1.0
+//Library version:1.1
+#include <LiquidCrystal_I2C.h>
+
+#include <Adafruit_AHTX0.h>
+
+Adafruit_AHTX0 aht;
+LiquidCrystal_I2C lcd(0x27,20,4);  // set the LCD address to 0x27 for a 16 chars and 2 line display
+
+void setup()
+{
+  Serial.begin(115200);
+  lcd.init();                      // initialize the lcd 
+  Serial.println("Adafruit AHT10/AHT20 demo!");
+
+  if (! aht.begin()) {
+    Serial.println("Could not find AHT? Check wiring");
+    while (1) delay(10);
+  }
+  Serial.println("AHT10 or AHT20 found");
+}
+
+
+
+
+
+void loop() {
+  sensors_event_t humidity, temp;
+  aht.getEvent(&humidity, &temp);// populate temp and humidity objects with fresh data
+    // Print a message to the LCD.
+  lcd.backlight();
+  lcd.setCursor(1,0);
+  lcd.print("Temperatura: "); 
+  lcd.setCursor(3,1);
+  lcd.print(temp.temperature); 
+  lcd.println(" grados");
+  lcd.setCursor(1,2);
+  lcd.print("Humedad: "); 
+  lcd.setCursor(3,3);
+  lcd.print(humidity.relative_humidity); 
+  lcd.println("%");
+  delay (1000);
+}
+```
+
