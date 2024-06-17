@@ -111,7 +111,8 @@ En caso de no encontrar, sería distinta:
 No I2C devices found
 done
 ```
-
+## Ejercicio Practico 2  SENSOR DE TEMPERATURA Y HUMEDAD I2C
+# Código del programa
 
 
 El código utiliza el ESP32-S3 para leer datos de temperatura y humedad del sensor y los muestra en una pantalla LCD I2C. En la función setup(), el código inicializa la comunicación serie, el LCD y el sensor AHT. Si el sensor no se encuentra, el programa se detiene con un mensaje de error.
@@ -165,4 +166,9 @@ void loop() {
   delay (1000);
 }
 ```
-
+# Salida
+Por el puerto serie se muestra lo siguiente:
+```
+Adafruit AHT10/AHT20 demo!
+AHT10 or AHT20 found
+```
